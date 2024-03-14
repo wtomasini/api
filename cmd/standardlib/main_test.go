@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"github.com/willTomasini/api/pkg/recipes"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -9,7 +10,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/xNok/go-rest-demo/pkg/recipes"
 )
 
 func readTestData(t *testing.T, name string) []byte {

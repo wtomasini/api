@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/gosimple/slug"
-	"github.com/xNok/go-rest-demo/pkg/recipes"
+	"github.com/willTomasini/api/pkg/recipes"
 	"net/http"
 
 	"github.com/gorilla/mux"

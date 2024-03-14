@@ -2,11 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/willTomasini/api/pkg/recipes"
 	"net/http"
 	"regexp"
 
 	"github.com/gosimple/slug"
-	"github.com/xNok/go-rest-demo/pkg/recipes"
 )
 
 var (
