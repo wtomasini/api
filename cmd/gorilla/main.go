@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gosimple/slug"
 	"github.com/willTomasini/api/pkg/recipes"
 	"net/http"
@@ -22,11 +23,11 @@ func main() {
 
 	s := router.PathPrefix("/recipes").Subrouter()
 
-	s.HandleFunc("/", recipesHandler.ListRecipes).Methods("GET")
-	s.HandleFunc("/", recipesHandler.CreateRecipe).Methods("POST")
-	s.HandleFunc("/{id}", recipesHandler.GetRecipe).Methods("GET")
-	s.HandleFunc("/{id}", recipesHandler.UpdateRecipe).Methods("UPDATE")
-	s.HandleFunc("/{id}", recipesHandler.DeleteRecipe).Methods("DELETE")
+	s.HandleFunc("/", recipesHandler.ListRecipes).Methods(http.MethodGet)
+	s.HandleFunc("/", recipesHandler.CreateRecipe).Methods(http.MethodPost)
+	s.HandleFunc("/{id}", recipesHandler.GetRecipe).Methods(http.MethodGet)
+	s.HandleFunc("/{id}", recipesHandler.UpdateRecipe).Methods(http.MethodPut)
+	s.HandleFunc("/{id}", recipesHandler.DeleteRecipe).Methods(http.MethodDelete)
 
 	http.ListenAndServe(":8010", router)
 }
@@ -136,6 +137,8 @@ func (h RecipesHandler) UpdateRecipe(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+	fmt.Println("done with update")
+	fmt.Println(string(jsonBytes))
 	w.Write(jsonBytes)
 }
 

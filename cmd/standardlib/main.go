@@ -69,6 +69,19 @@ func NewRecipesHandler(s recipeStore) *RecipesHandler {
 	}
 }
 
+func (h *RecipesHandler) List(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (h *RecipesHandler) Create(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (h *RecipesHandler) Update(w http.ResponseWriter, r *http.Request) {
+
+}
+
+// Move away from this
 func (h *RecipesHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case r.Method == http.MethodPost && RecipeRe.MatchString(r.URL.Path):
