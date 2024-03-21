@@ -3,14 +3,14 @@ POST http://localhost:8010/recipes/
 Content-Type: application/json
 
 {
-  "name": "Ham and cheese toasties",
+  "name": "6010 Alloy",
   "ingredients": [
     {
-      "name": "bread"
+      "name": "aluminum"
     },{
-      "name": "ham"
+      "name": "silicon"
     },{
-      "name": "cheese"
+      "name": "magnesium"
     }
   ]
 }
@@ -27,35 +27,35 @@ GET http://localhost:8010/recipes/
 > {%
     client.test("Request executed successfully", function() {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body === "{\"ham-and-cheese-toasties\":{\"name\":\"Ham and cheese toasties\",\"ingredients\":[{\"name\":\"bread\"},{\"name\":\"ham\"},{\"name\":\"cheese\"}]}}", "Body match expected response")
+        client.assert(response.body === "{\"6010-alloy\":{\"name\":\"6010 Alloy\",\"ingredients\":[{\"name\":\"aluminum\"},{\"name\":\"silicon\"},{\"name\":\"magnesium\"}]}}", "Body match expected response")
     });
 %}
 
 ###
-GET http://localhost:8010/recipes/ham-and-cheese-toasties
+GET http://localhost:8010/recipes/6010-alloy
 
 > {%
     client.test("Request executed successfully", function() {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body === "{\"name\":\"Ham and cheese toasties\",\"ingredients\":[{\"name\":\"bread\"},{\"name\":\"ham\"},{\"name\":\"cheese\"}]}", "Body match expected response")
+        client.assert(response.body === "{\"name\":\"6010 Alloy\",\"ingredients\":[{\"name\":\"aluminum\"},{\"name\":\"silicon\"},{\"name\":\"magnesium\"}]}", "Body match expected response")
     });
 %}
 
 ###
-PUT  http://localhost:8010/recipes/ham-and-cheese-toasties
+PUT  http://localhost:8010/recipes/6010-alloy
 Content-Type: application/json
 
 {
-  "name": "Ham and cheese toasties",
+  "name": "6010 Alloy",
   "ingredients": [
     {
-      "name": "bread"
+      "name": "aluminum"
     },{
-      "name": "ham"
+      "name": "silicon"
     },{
-      "name": "cheese"
+      "name": "magnesium"
     },{
-      "name": "butter"
+      "name": "copper"
     }
   ]
 }
@@ -69,18 +69,18 @@ Content-Type: application/json
 %}
 
 ###
-GET http://localhost:8010/recipes/ham-and-cheese-toasties
+GET http://localhost:8010/recipes/6010-alloy
 
 > {%
     client.test("Request executed successfully", function() {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body === "{\"name\":\"Ham and cheese toasties\",\"ingredients\":[{\"name\":\"bread\"},{\"name\":\"ham\"},{\"name\":\"cheese\"},{\"name\":\"butter\"}]}", "Body match expected response")
+        client.assert(response.body === "{\"name\":\"6010 Alloy\",\"ingredients\":[{\"name\":\"aluminum\"},{\"name\":\"silicon\"},{\"name\":\"magnesium\"},{\"name\":\"copper\"}]}", "Body match expected response")
 
     });
 %}
 
 ###
-DELETE http://localhost:8010/recipes/ham-and-cheese-toasties
+DELETE http://localhost:8010/recipes/6010-alloy
 
 > {%
     client.test("Request executed successfully", function() {
@@ -89,7 +89,7 @@ DELETE http://localhost:8010/recipes/ham-and-cheese-toasties
 %}
 
 ###
-GET http://localhost:8010/recipes/ham-and-cheese-toasties
+GET http://localhost:8010/recipes/6010-alloy
 
 > {%
     client.test("Request executed successfully", function() {

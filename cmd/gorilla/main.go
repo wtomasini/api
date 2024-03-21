@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/gosimple/slug"
 	"github.com/willTomasini/api/pkg/recipes"
@@ -93,14 +94,21 @@ func (h RecipesHandler) GetRecipe(w http.ResponseWriter, r *http.Request) {
 
 	recipe, err := h.store.Get(id)
 	if err != nil {
-		if err == recipes.NotFoundErr {
+		// debugging code
+		fmt.Println(err)
+		fmt.Println(recipes.NotFoundErr)
+		fmt.Println(errors.Is(err, recipes.NotFoundErr))
+		// this is broken, it never evaluates to true
+		if errors.Is(err, recipes.NotFoundErr) {
+			fmt.Println("handling 404")
 			NotFoundHandler(w, r)
 			return
 		}
+		fmt.Println("handling 500")
 		InternalServerErrorHandler(w, r)
 		return
 	}
-
+	fmt.Println("No error?")
 	jsonBytes, err := json.Marshal(recipe)
 	if err != nil {
 		InternalServerErrorHandler(w, r)
@@ -121,7 +129,7 @@ func (h RecipesHandler) UpdateRecipe(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := h.store.Update(id, recipe); err != nil {
-		if err == recipes.NotFoundErr {
+		if errors.Is(err, recipes.NotFoundErr) {
 			NotFoundHandler(w, r)
 			return
 		}
