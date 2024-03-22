@@ -99,7 +99,7 @@ func (h RecipesHandler) GetRecipe(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(recipes.NotFoundErr)
 		fmt.Println(errors.Is(err, recipes.NotFoundErr))
 		// this is broken, it never evaluates to true
-		if errors.Is(err, recipes.NotFoundErr) {
+		if errors.Is(err, recipes.ErrNotFound) {
 			fmt.Println("handling 404")
 			NotFoundHandler(w, r)
 			return
