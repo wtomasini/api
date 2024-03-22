@@ -22,13 +22,15 @@ func main() {
 
 	router.HandleFunc("/", home.ServeHTTP)
 
-	s := router.PathPrefix("/recipes").Subrouter()
+	r := router.PathPrefix("/recipes").Subrouter()
 
-	s.HandleFunc("/", recipesHandler.ListRecipes).Methods(http.MethodGet)
-	s.HandleFunc("/", recipesHandler.CreateRecipe).Methods(http.MethodPost)
-	s.HandleFunc("/{id}", recipesHandler.GetRecipe).Methods(http.MethodGet)
-	s.HandleFunc("/{id}", recipesHandler.UpdateRecipe).Methods(http.MethodPut)
-	s.HandleFunc("/{id}", recipesHandler.DeleteRecipe).Methods(http.MethodDelete)
+	r.HandleFunc("/", recipesHandler.ListRecipes).Methods(http.MethodGet)
+	r.HandleFunc("/", recipesHandler.CreateRecipe).Methods(http.MethodPost)
+	r.HandleFunc("/{id}", recipesHandler.GetRecipe).Methods(http.MethodGet)
+	r.HandleFunc("/{id}", recipesHandler.UpdateRecipe).Methods(http.MethodPut)
+	r.HandleFunc("/{id}", recipesHandler.DeleteRecipe).Methods(http.MethodDelete)
+
+	//u := router.PathPrefix("/users").Subrouter()
 
 	http.ListenAndServe(":8010", router)
 }
@@ -94,21 +96,13 @@ func (h RecipesHandler) GetRecipe(w http.ResponseWriter, r *http.Request) {
 
 	recipe, err := h.store.Get(id)
 	if err != nil {
-		// debugging code
-		fmt.Println(err)
-		fmt.Println(recipes.NotFoundErr)
-		fmt.Println(errors.Is(err, recipes.NotFoundErr))
-		// this is broken, it never evaluates to true
 		if errors.Is(err, recipes.ErrNotFound) {
-			fmt.Println("handling 404")
 			NotFoundHandler(w, r)
 			return
 		}
-		fmt.Println("handling 500")
 		InternalServerErrorHandler(w, r)
 		return
 	}
-	fmt.Println("No error?")
 	jsonBytes, err := json.Marshal(recipe)
 	if err != nil {
 		InternalServerErrorHandler(w, r)
