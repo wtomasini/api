@@ -65,7 +65,7 @@ func (h UsersHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 
 	user, err := h.store.Get(id)
 	if err != nil {
-		if errors.Is(err, users.NotFoundErr) {
+		if errors.Is(err, users.ErrNotFound) {
 			NotFoundHandler(w, r)
 			return
 		}
@@ -92,7 +92,7 @@ func (h UsersHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := h.store.Update(id, user); err != nil {
-		if errors.Is(err, users.NotFoundErr) {
+		if errors.Is(err, users.ErrNotFound) {
 			NotFoundHandler(w, r)
 			return
 		}

@@ -1,4 +1,4 @@
-package users
+package groups
 
 import "errors"
 
@@ -7,38 +7,38 @@ var (
 )
 
 type MemStore struct {
-	list map[string]User
+	list map[string]Group
 }
 
 func NewMemStore() *MemStore {
-	list := make(map[string]User)
+	list := make(map[string]Group)
 	return &MemStore{
 		list,
 	}
 }
 
-func (m MemStore) Add(name string, user User) error {
-	m.list[name] = user
+func (m MemStore) Add(name string, group Group) error {
+	m.list[name] = group
 	return nil
 }
 
-func (m MemStore) Get(name string) (User, error) {
+func (m MemStore) Get(name string) (Group, error) {
 
 	if val, ok := m.list[name]; ok {
 		return val, nil
 	}
 
-	return User{}, ErrNotFound
+	return Group{}, ErrNotFound
 }
 
-func (m MemStore) List() (map[string]User, error) {
+func (m MemStore) List() (map[string]Group, error) {
 	return m.list, nil
 }
 
-func (m MemStore) Update(name string, user User) error {
+func (m MemStore) Update(name string, group Group) error {
 
 	if _, ok := m.list[name]; ok {
-		m.list[name] = user
+		m.list[name] = group
 		return nil
 	}
 

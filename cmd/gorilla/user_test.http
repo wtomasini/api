@@ -56,7 +56,7 @@ GET http://localhost:8010/users/jackson-charvel
 > {%
     client.test("Request executed successfully", function() {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body === "{\"name\":\"Jackson Charvel\",\"email\":\"guitardude@gmail.com\"}", "Body match expected response")
+        client.assert(response.body === "{\"name\":\"Jackson Charvel\",\"email\":\"guitardude@willtomasini.com\"}", "Body match expected response")
 
     });
 %}

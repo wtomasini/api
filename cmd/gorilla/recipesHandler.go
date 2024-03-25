@@ -92,7 +92,7 @@ func (h RecipesHandler) UpdateRecipe(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := h.store.Update(id, recipe); err != nil {
-		if errors.Is(err, recipes.NotFoundErr) {
+		if errors.Is(err, recipes.ErrNotFound) {
 			NotFoundHandler(w, r)
 			return
 		}
