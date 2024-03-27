@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/willTomasini/api/pkg/groups"
 	"github.com/willTomasini/api/pkg/recipes"
 	"github.com/willTomasini/api/pkg/users"
 	"net/http"
@@ -8,14 +9,15 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var ()
-
 func main() {
 	recipeStore := recipes.NewMemStore()
 	recipesHandler := NewRecipesHandler(recipeStore)
 
 	userStore := users.NewMemStore()
 	usersHandler := NewUsersHandler(userStore)
+
+	groupStore := groups.NewMemStore()
+	groupsHandler := NewGroupsHandler(groupStore)
 
 	home := homeHandler{}
 
@@ -38,6 +40,14 @@ func main() {
 	u.HandleFunc("/{id}", usersHandler.GetUser).Methods(http.MethodGet)
 	u.HandleFunc("/{id}", usersHandler.UpdateUser).Methods(http.MethodPut)
 	u.HandleFunc("/{id}", usersHandler.DeleteUser).Methods(http.MethodDelete)
+
+	g := router.PathPrefix("/groups").Subrouter()
+
+	g.HandleFunc("/", groupsHandler.ListGroups).Methods(http.MethodGet)
+	g.HandleFunc("/", groupsHandler.CreateGroup).Methods(http.MethodPost)
+	g.HandleFunc("/{id}", groupsHandler.GetGroup).Methods(http.MethodGet)
+	g.HandleFunc("/{id}", groupsHandler.UpdateGroup).Methods(http.MethodPut)
+	g.HandleFunc("/{id}", groupsHandler.DeleteGroup).Methods(http.MethodDelete)
 
 	http.ListenAndServe(":8010", router)
 }

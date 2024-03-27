@@ -1,10 +1,10 @@
 ###
-POST http://localhost:8010/users/
+POST http://localhost:8010/groups/
 Content-Type: application/json
 
 {
-  "name": "Jackson Charvel",
-  "email": "guitardude@gmail.com"
+  "name": "Cool Kids",
+  "id": 0
 }
 
 > {%
@@ -14,59 +14,56 @@ Content-Type: application/json
 %}
 
 ###
-GET http://localhost:8010/users/
+GET http://localhost:8010/groups/
 
 > {%
     client.test("Request executed successfully", function() {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body === "{\"jackson-charvel\":" +
-            "{\"name\":\"Jackson Charvel\",\"email\":\"guitardude@gmail.com\"}}",
+        client.assert(response.body === "{\"cool-kids\":" +
+            "{\"name\":\"Cool Kids\",\"id\":0}}",
             "Body match expected response")
     });
 %}
 
 ###
-GET http://localhost:8010/users/jackson-charvel
+GET http://localhost:8010/groups/cool-kids/
 
 > {%
     client.test("Request executed successfully", function() {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body === "{\"name\":\"Jackson Charvel\",\"email\":\"guitardude@gmail.com\"}",
+        client.assert(response.body === "{\"name\":\"Cool Kids\",\"id\":0}",
             "Body match expected response")
     });
 %}
 
 ###
-PUT  http://localhost:8010/users/jackson-charvel
+PUT http://localhost:8010/groups/cool-kids/
 Content-Type: application/json
 
 {
-  "name": "Jackson Charvel",
-  "email": "guitardude@willtomasini.com"
+  "name": "Cool Kids",
+  "id": 1
 }
 
 > {%
     client.test("Request executed successfully", function() {
-
-        client.log(response.body);
         client.assert(response.status === 200, "Response status is not 200");
     });
 %}
 
 ###
-GET http://localhost:8010/users/jackson-charvel
+GET http://localhost:8010/groups/cool-kids/
 
 > {%
     client.test("Request executed successfully", function() {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body === "{\"name\":\"Jackson Charvel\",\"email\":\"guitardude@willtomasini.com\"}",
+        client.assert(response.body === "{\"name\":\"Cool Kids\",\"id\":0}",
             "Body match expected response")
-
     });
 %}
 
 ###
-DELETE http://localhost:8010/users/jackson-charvel
+DELETE http://localhost:8010/users/cool-kids
 
 > {%
     client.test("Request executed successfully", function() {
@@ -75,7 +72,7 @@ DELETE http://localhost:8010/users/jackson-charvel
 %}
 
 ###
-GET http://localhost:8010/users/jackson-charvel
+GET http://localhost:8010/users/cool-kids
 
 > {%
     client.test("Request executed successfully", function() {
