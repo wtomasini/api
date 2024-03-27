@@ -49,20 +49,20 @@ func main() {
 	g.HandleFunc("/{id}", groupsHandler.UpdateGroup).Methods(http.MethodPut)
 	g.HandleFunc("/{id}", groupsHandler.DeleteGroup).Methods(http.MethodDelete)
 
-	http.ListenAndServe(":8010", router)
+	_ = http.ListenAndServe(":8010", router)
 }
 
 type homeHandler struct{}
 
 func (h *homeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Why tho\n -Ryan"))
+	_, _ = w.Write([]byte("Why tho\n -Ryan"))
 }
 
 func InternalServerErrorHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusInternalServerError)
-	w.Write([]byte("500 Internal Server Error"))
+	_, _ = w.Write([]byte("500 Internal Server Error"))
 }
 func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
-	w.Write([]byte("404 Not Found"))
+	_, _ = w.Write([]byte("404 Not Found"))
 }
