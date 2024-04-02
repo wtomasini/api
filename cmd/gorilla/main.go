@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/willTomasini/api/pkg/groups"
-	"github.com/willTomasini/api/pkg/recipes"
 	"github.com/willTomasini/api/pkg/users"
 	"net/http"
 
@@ -10,9 +9,6 @@ import (
 )
 
 func main() {
-	recipeStore := recipes.NewMemStore()
-	recipesHandler := NewRecipesHandler(recipeStore)
-
 	userStore := users.NewMemStore()
 	usersHandler := NewUsersHandler(userStore)
 
@@ -24,14 +20,6 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/", home.ServeHTTP)
-
-	r := router.PathPrefix("/recipes").Subrouter()
-
-	r.HandleFunc("/", recipesHandler.ListRecipes).Methods(http.MethodGet)
-	r.HandleFunc("/", recipesHandler.CreateRecipe).Methods(http.MethodPost)
-	r.HandleFunc("/{id}", recipesHandler.GetRecipe).Methods(http.MethodGet)
-	r.HandleFunc("/{id}", recipesHandler.UpdateRecipe).Methods(http.MethodPut)
-	r.HandleFunc("/{id}", recipesHandler.DeleteRecipe).Methods(http.MethodDelete)
 
 	u := router.PathPrefix("/users").Subrouter()
 
