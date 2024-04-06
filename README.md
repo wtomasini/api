@@ -1,1 +1,1 @@
-A simple SCIM API developed for Authwise, utilizing the gorilla/mux framework.
+A simple SCIM API developed for Authwise.
