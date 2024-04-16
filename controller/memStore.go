@@ -1,31 +1,77 @@
 package controller
 
-import "errors"
+import (
+	"errors"
+)
 
 var (
 	ErrNotFound = errors.New("not found")
 )
 
 // I'm copying the logic over for users and groups, but there has to be a better way of doing this,
-// by handling both with the same function.
+// by handling both with the same functions.
 
-type MemStore struct {
-	list map[string]Group
+type UserMemStore struct {
+	list map[string]User
 }
 
-func NewMemStore() *MemStore {
-	list := make(map[string]Group)
-	return &MemStore{
+func NewUserMemStore() *UserMemStore {
+	list := make(map[string]User)
+	return &UserMemStore{
 		list,
 	}
 }
 
-func (m MemStore) Add(name string, group Group) error {
+func (m UserMemStore) Add(name string, user User) error {
+	m.list[name] = user
+	return nil
+}
+
+func (m UserMemStore) Get(name string) (User, error) {
+
+	if val, ok := m.list[name]; ok {
+		return val, nil
+	}
+
+	return User{}, ErrNotFound
+}
+
+func (m UserMemStore) List() (map[string]User, error) {
+	return m.list, nil
+}
+
+func (m UserMemStore) Update(name string, user User) error {
+
+	if _, ok := m.list[name]; ok {
+		m.list[name] = user
+		return nil
+	}
+
+	return ErrNotFound
+}
+
+func (m UserMemStore) Remove(name string) error {
+	delete(m.list, name)
+	return nil
+}
+
+type GroupMemStore struct {
+	list map[string]Group
+}
+
+func NewGroupMemStore() *GroupMemStore {
+	list := make(map[string]Group)
+	return &GroupMemStore{
+		list,
+	}
+}
+
+func (m GroupMemStore) Add(name string, group Group) error {
 	m.list[name] = group
 	return nil
 }
 
-func (m MemStore) Get(name string) (Group, error) {
+func (m GroupMemStore) Get(name string) (Group, error) {
 
 	if val, ok := m.list[name]; ok {
 		return val, nil
@@ -34,11 +80,11 @@ func (m MemStore) Get(name string) (Group, error) {
 	return Group{}, ErrNotFound
 }
 
-func (m MemStore) List() (map[string]Group, error) {
+func (m GroupMemStore) List() (map[string]Group, error) {
 	return m.list, nil
 }
 
-func (m MemStore) Update(name string, group Group) error {
+func (m GroupMemStore) Update(name string, group Group) error {
 
 	if _, ok := m.list[name]; ok {
 		m.list[name] = group
@@ -48,7 +94,7 @@ func (m MemStore) Update(name string, group Group) error {
 	return ErrNotFound
 }
 
-func (m MemStore) Remove(name string) error {
+func (m GroupMemStore) Remove(name string) error {
 	delete(m.list, name)
 	return nil
 }
