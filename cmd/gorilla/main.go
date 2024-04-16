@@ -1,4 +1,4 @@
-package main
+package gorilla
 
 import (
 	"github.com/willTomasini/api/pkg/groups"

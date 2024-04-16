@@ -1,4 +1,4 @@
-package main
+package gorilla
 
 import (
 	"encoding/json"
