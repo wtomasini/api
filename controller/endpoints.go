@@ -6,16 +6,14 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/gosimple/slug"
-	"github.com/willTomasini/api/pkg/groups"
-	"github.com/willTomasini/api/pkg/users"
 	"net/http"
 )
 
 type userStore interface {
-	Add(name string, user users.User) error
-	Get(name string) (users.User, error)
-	List() (map[string]users.User, error)
-	Update(name string, user users.User) error
+	Add(name string, user User) error
+	Get(name string) (User, error)
+	List() (map[string]User, error)
+	Update(name string, user User) error
 	Remove(name string) error
 }
 
@@ -30,7 +28,7 @@ func NewUsersHandler(s userStore) *UsersHandler {
 }
 
 func (h UsersHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
-	var user users.User
+	var user User
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		InternalServerErrorHandler(w, r)
@@ -66,7 +64,7 @@ func (h UsersHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 
 	user, err := h.store.Get(id)
 	if err != nil {
-		if errors.Is(err, users.ErrNotFound) {
+		if errors.Is(err, ErrNotFound) {
 			NotFoundHandler(w, r)
 			return
 		}
@@ -86,14 +84,14 @@ func (h UsersHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 func (h UsersHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
-	var user users.User
+	var user User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		InternalServerErrorHandler(w, r)
 		return
 	}
 
 	if err := h.store.Update(id, user); err != nil {
-		if errors.Is(err, users.ErrNotFound) {
+		if errors.Is(err, ErrNotFound) {
 			NotFoundHandler(w, r)
 			return
 		}
@@ -125,10 +123,10 @@ func (h UsersHandler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 }
 
 type groupStore interface {
-	Add(name string, group groups.Group) error
-	Get(name string) (groups.Group, error)
-	List() (map[string]groups.Group, error)
-	Update(name string, group groups.Group) error
+	Add(name string, group Group) error
+	Get(name string) (Group, error)
+	List() (map[string]Group, error)
+	Update(name string, group Group) error
 	Remove(name string) error
 }
 
@@ -143,7 +141,7 @@ func NewGroupsHandler(s groupStore) *GroupsHandler {
 }
 
 func (h GroupsHandler) CreateGroup(w http.ResponseWriter, r *http.Request) {
-	var group groups.Group
+	var group Group
 
 	if err := json.NewDecoder(r.Body).Decode(&group); err != nil {
 		InternalServerErrorHandler(w, r)
@@ -179,7 +177,7 @@ func (h GroupsHandler) GetGroup(w http.ResponseWriter, r *http.Request) {
 
 	group, err := h.store.Get(id)
 	if err != nil {
-		if errors.Is(err, groups.ErrNotFound) {
+		if errors.Is(err, ErrNotFound) {
 			NotFoundHandler(w, r)
 			return
 		}
@@ -199,14 +197,14 @@ func (h GroupsHandler) GetGroup(w http.ResponseWriter, r *http.Request) {
 func (h GroupsHandler) UpdateGroup(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
-	var group groups.Group
+	var group Group
 	if err := json.NewDecoder(r.Body).Decode(&group); err != nil {
 		InternalServerErrorHandler(w, r)
 		return
 	}
 
 	if err := h.store.Update(id, group); err != nil {
-		if errors.Is(err, groups.ErrNotFound) {
+		if errors.Is(err, ErrNotFound) {
 			NotFoundHandler(w, r)
 			return
 		}
