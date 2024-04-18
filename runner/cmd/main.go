@@ -1,24 +1,21 @@
 package main
 
 import (
-	"github.com/willTomasini/api/pkg/groups"
-	"github.com/willTomasini/api/pkg/users"
-	"net/http"
-
 	"github.com/gorilla/mux"
+	"github.com/willTomasini/api/controller"
+	"net/http"
 )
 
 func main() {
-	userStore := users.NewMemStore()
-	usersHandler := NewUsersHandler(userStore)
+	userStore := controller.NewUserMemStore()
+	usersHandler := controller.NewUsersHandler(userStore)
 
-	groupStore := groups.NewMemStore()
-	groupsHandler := NewGroupsHandler(groupStore)
+	groupStore := controller.NewGroupMemStore()
+	groupsHandler := controller.NewGroupsHandler(groupStore)
 
 	home := homeHandler{}
 
 	router := mux.NewRouter()
-
 	router.HandleFunc("/", home.ServeHTTP)
 
 	u := router.PathPrefix("/users").Subrouter()
@@ -44,13 +41,4 @@ type homeHandler struct{}
 
 func (h *homeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write([]byte("Why tho\n -Ryan"))
-}
-
-func InternalServerErrorHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusInternalServerError)
-	_, _ = w.Write([]byte("500 Internal Server Error"))
-}
-func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotFound)
-	_, _ = w.Write([]byte("404 Not Found"))
 }
